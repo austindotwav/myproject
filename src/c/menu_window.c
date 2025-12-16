@@ -13,16 +13,23 @@ static void menu_select_callback(int index, void *ctx) {
 
 static void window_load(Window *window) {
 
-  s_menu_items[0] = (SimpleMenuItem) {
-    .title = "About",
-    .subtitle = "© austindotwav",
-    .callback = menu_select_callback,
-  };
-  
-  s_menu_items[1] = (SimpleMenuItem) {
+    s_menu_items[0] = (SimpleMenuItem) {
     .title = "Settings",
     .callback = menu_select_callback,
   };
+
+  s_menu_items[1] = (SimpleMenuItem) {
+    .title = "About",
+    .subtitle = "© 2025 austindotwav",
+    .callback = menu_select_callback,
+  };
+
+  s_menu_items[2] = (SimpleMenuItem) {
+    .title = "Version",
+    .subtitle = "0.1",
+    .callback = menu_select_callback,
+  };
+  
 
 
   s_menu_sections[0] = (SimpleMenuSection) {
