@@ -1,0 +1,10 @@
+# Ignore the build directory
+build/
+*.pbw
+
+# Ignore waf hidden files
+.waf*
+.lock-waf*
+
+# Ignore system files
+.DS_Store

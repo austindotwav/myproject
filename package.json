@@ -1,0 +1,78 @@
+{
+  "uuid": "5e8eec99-fa47-4edf-997c-e28d9b3c5c35",
+  "name": "myproject",
+  "author": "austindotwav",
+  "version": "1.0.0",
+  "keywords": ["pebble-app"],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "myproject",
+    "uuid": "8d66688f-0269-4420-8289-4bcb625a5f61",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "basalt", "aplite", "chalk"
+    ],
+    "watchapp": {
+      "watchface": false
+    },
+    "messageKeys": [
+      "dummy"
+    ],
+    "resources": {
+      "media": [
+        {
+        "type": "bitmap",
+        "name": "HISTORY",
+        "file": "images/History.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "MENU",
+        "file": "images/Menu.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "ADD",
+        "file": "images/Add.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "TICK_BLACK",
+        "file": "images/tick_black.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "TICK_WHITE",
+        "file": "images/tick_white.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "CONFIRM",
+        "file": "images/confirm.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "CROSS",
+        "file": "images/cross.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "TICK",
+        "file": "images/tick.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "WARNING",
+        "file": "images/warning.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "CONFIG_REQUIRED",
+        "file": "images/config-required.png"
+      }
+    ]
+  }
+  }
+}
