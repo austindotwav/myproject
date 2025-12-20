@@ -26,7 +26,7 @@ static void window_load(Window *window) {
 
   s_menu_items[2] = (SimpleMenuItem) {
     .title = "Version",
-    .subtitle = "0.1",
+    .subtitle = "0.2.0",
     .callback = menu_select_callback,
   };
   
