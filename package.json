@@ -2,13 +2,14 @@
   "uuid": "5e8eec99-fa47-4edf-997c-e28d9b3c5c35",
   "name": "myproject",
   "author": "austindotwav",
-  "version": "0.1",
+  "version": "0.2.0",
   "keywords": ["pebble-app"],
   "private": true,
   "dependencies": {},
   "pebble": {
-    "displayName": "myproject",
+    "displayName": "Ascents",
     "uuid": "8d66688f-0269-4420-8289-4bcb625a5f61",
+    "menuIcon": "ICON",
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
@@ -22,6 +23,11 @@
     ],
     "resources": {
       "media": [
+        {
+          "type": "bitmap",
+          "name": "ICON",
+          "file": "images/icon.png"
+        },
         {
         "type": "bitmap",
         "name": "HISTORY",
