@@ -1,8 +1,10 @@
 #include <pebble.h>
+#include "storage.h"
 
 // Example; unimplemented
 #include "fruit_backend.h"
 #include "history_window.h"
+
 #include "add_window.h"
 #include "menu_window.h"
 
@@ -76,10 +78,13 @@ static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  s_text_layer = text_layer_create(GRect(10, 15, 124, 100));
+  int width = layer_get_frame(window_layer).size.w - ACTION_BAR_WIDTH - 3;
+
+  s_text_layer = text_layer_create(GRect(4, PBL_IF_RECT_ELSE(10, 15), width, 100));
   GFont heading_font = fonts_get_system_font(FONT_KEY_GOTHIC_24);
   text_layer_set_font(s_text_layer, heading_font);
   text_layer_set_text(s_text_layer, "Today");
+  text_layer_set_text_alignment(s_text_layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 
   static char s_buffer[32];
@@ -146,6 +151,7 @@ static void deinit(void) {
 }
 
 int main(void) {
+  APP_LOG(APP_LOG_LEVEL_INFO, "Starting App");
   init();
   app_event_loop();
   deinit();
