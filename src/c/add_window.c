@@ -1,10 +1,14 @@
 #include <pebble.h>
 #include "add_window.h"
+#include "storage.h"
 
 #define REPEAT_INTERVAL_MS 50
 
 #define NUM_DOLLARS_PKEY 1
 #define NUM_DOLLARS_DEFAULT 0
+
+#define STORAGE_KEY_HISTORY 1
+#define MAX_HISTORY_ENTRIES 10
 
 static Window *s_add_window;
 static ActionBarLayer *s_action_bar;
@@ -12,6 +16,21 @@ static TextLayer *s_body_layer, *s_label_layer;
 static GBitmap *s_icon_plus, *s_icon_minus;
 
 static int s_num_dollars = NUM_DOLLARS_DEFAULT;
+
+SpendingHistory s_spending_history;
+
+static void load_history() {
+  if (persist_exists(STORAGE_KEY_HISTORY)) {
+    persist_read_data(STORAGE_KEY_HISTORY, &s_spending_history, sizeof(SpendingHistory));
+  } else {
+    s_spending_history.total_spent = 0;
+    s_spending_history.entry_count = 0;
+  }
+}
+
+static void save_history() {
+  persist_write_data(STORAGE_KEY_HISTORY, &s_spending_history, sizeof(SpendingHistory));
+}
 
 static void update_text() {
   static char s_body_text[18];
@@ -29,18 +48,27 @@ static void decrement_click_handler(ClickRecognizerRef recognizer, void *context
   if (s_num_dollars <= 0) {
     return;
   }
-  
-
   s_num_dollars--;
   update_text();
 }
 
 static void add_click_handler(ClickRecognizerRef recognizer, void *context) {
-  int current_total = persist_read_int(NUM_DOLLARS_PKEY);
+  load_history();
 
-  int new_total = current_total + s_num_dollars;
+  s_spending_history.total_spent += s_num_dollars;
 
-  persist_write_int(NUM_DOLLARS_PKEY, new_total);
+
+  for (int i = MAX_HISTORY_ENTRIES - 1; i > 0; i--) {
+    s_spending_history.entries[i] = s_spending_history.entries[i - 1];
+  }
+
+  s_spending_history.entries[0] = s_num_dollars;
+
+  if (s_spending_history.entry_count < MAX_HISTORY_ENTRIES) {
+    s_spending_history.entry_count++;
+  }
+
+  save_history();
 
   window_stack_pop(true);
 }
@@ -52,6 +80,7 @@ static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, add_click_handler);
 }
 
+
 static void main_window_load(Window *window) {
   s_num_dollars = 0;
   Layer *window_layer = window_get_root_layer(window);
@@ -62,7 +91,7 @@ static void main_window_load(Window *window) {
   s_action_bar = action_bar_layer_create();
   action_bar_layer_add_to_window(s_action_bar, window);
   action_bar_layer_set_click_config_provider(s_action_bar, click_config_provider);
-  action_bar_layer_set_background_color(s_action_bar, GColorVividCerulean);
+  action_bar_layer_set_background_color(s_action_bar, GColorGreen);
 
   action_bar_layer_set_icon(s_action_bar, BUTTON_ID_UP, s_icon_plus);
   action_bar_layer_set_icon(s_action_bar, BUTTON_ID_DOWN, s_icon_minus);
@@ -78,7 +107,7 @@ static void main_window_load(Window *window) {
   s_label_layer = text_layer_create(GRect(4, PBL_IF_RECT_ELSE(44, 60) + 28, width, 60));
   text_layer_set_font(s_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_background_color(s_label_layer, GColorClear);
-  text_layer_set_text(s_label_layer, "Dollars");
+  text_layer_set_text(s_label_layer, "Enter amount");
   text_layer_set_text_alignment(s_label_layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(window_layer, text_layer_get_layer(s_label_layer));
 
