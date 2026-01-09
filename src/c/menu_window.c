@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "menu_window.h"
+#include "storage.h"
 
 static Window *s_menu_window;
 static SimpleMenuLayer *s_simple_menu_layer;
